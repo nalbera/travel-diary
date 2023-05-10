@@ -11,13 +11,15 @@ module.exports = (sequelize) => {
        date:{
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: DataTypes.NOW
        },
        place:{
         type: DataTypes.STRING,
         allowNull: false
        },
        description:{
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: null
        },
        user_id:{
         type: DataTypes.INTEGER.UNSIGNED,
