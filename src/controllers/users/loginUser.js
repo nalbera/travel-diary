@@ -1,5 +1,6 @@
 const {Users} = require('../../database/config/db');
 const bycrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const loginUser = async (req,res) => {
     
@@ -10,19 +11,29 @@ const loginUser = async (req,res) => {
         if(!email || !pwd) return res.status(400).send('Missing data');
 
         const user = await Users.findOne({where:{email: email}});
-
+        
         if(!user) return res.status(404).send('User not found');
 
         const check = bycrypt.compareSync(pwd,user.password);
 
         if(check==false) return res.status(401).send('Incorrect email or password');
+        
+        if(!user.active) return res.status(401).send('User pending validation. Check the email.');
+
+        const jwtInfo = {
+            id: user.id,
+            role: user.role
+        };
+        
+        const token = jwt.sign(jwtInfo, process.env.SECRET, {expiresIn: '60m'});
 
         res.status(200).send({
             status: 'OK',
-            message: 'User successfully logged in'
+            message: 'Login: User successfully logged in',
+            data: { token }
         })
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
