@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const {infoUser, loginUser, createUser,validateUser} = require('../controllers/users');
 
-router.get('/users/:id', infoUser);
+const tokenMiddleware = require('../middlewares/tokenMiddleware');
+
+router.get('/users/:id',tokenMiddleware ,infoUser);
 router.post('/users/login',loginUser);
 router.post('/users', createUser);
-router.get('/users/validate/:regCode', validateUser)
+router.get('/users/validate/:regCode', validateUser);
 
 module.exports = router;
