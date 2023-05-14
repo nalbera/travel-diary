@@ -1,6 +1,8 @@
 const {Users} = require('../../database/config/db');
 const bycrypt = require('bcryptjs');
 const {v4: uuidv4} = require('uuid');
+const {validationResult} = require('express-validator');
+
 const sendMail = require('../../services/sendMail');
 
 const createUser = async (req,res) => {
@@ -9,7 +11,12 @@ const createUser = async (req,res) => {
 
     try {
         
-        if(!email || !pwd) return res.status(400).send('Missing Datta');
+        
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.json({errors: errors.array()});
+        }
 
         const user = await Users.findOne({where:{email: email}});
 
