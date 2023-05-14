@@ -4,6 +4,7 @@ const testConnection = require('./src/database/services/testConnection')
 
 const PORT = process.env.PORT || 3001;
 
+
 testConnection().then(()=>{
     conn.sync({alter: false}).then(() => {
         server.listen(PORT, () => {
