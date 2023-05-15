@@ -4,6 +4,7 @@ const createUser = require('./createUser');
 const validateUser = require('./validateUser');
 const modifyUser = require('./modifyUser');
 const deleteUser = require('./deleteUser');
+const modifyPassword = require('./modifyPassword');
 
 module.exports = {
     infoUser,
@@ -11,5 +12,6 @@ module.exports = {
     createUser,
     validateUser,
     modifyUser,
-    deleteUser
+    deleteUser,
+    modifyPassword
 }
