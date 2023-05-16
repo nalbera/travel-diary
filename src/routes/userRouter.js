@@ -7,7 +7,9 @@ const {
     validateUser,
     modifyUser,
     deleteUser,
-    modifyPassword
+    modifyPassword,
+    recorverPassword,
+    resetPassword
 } = require('../controllers/users');
 
 const tokenMiddleware = require('../middlewares/tokenMiddleware');
@@ -21,5 +23,7 @@ router.get('/users/:id', userExist, tokenMiddleware, infoUser);
 router.put('/users/:id',userExist, tokenMiddleware, modifyUser);
 router.delete('/users/:id',userExist,tokenMiddleware,deleteUser);
 router.patch('/users/modify-password', tokenMiddleware, modifyPassword);
+router.post('/users/recover-password', recorverPassword);
+router.post('/users/reset-password', resetPassword);
 
 module.exports = router;
