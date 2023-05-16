@@ -6,6 +6,7 @@ const fileUpload = require('express-fileupload');
 const createDir = require('../src/services/createDir');
 
 const userRouter = require('../src/routes/userRouter');
+const entriesRouter = require('../src/routes/entriesRouter');
 
 const server = express();
 
@@ -26,6 +27,7 @@ server.get('/', (req,res) => {
 });
 
 server.use(userRouter);
+server.use(entriesRouter);
 
 server.use((err, _req, res, _next) => {
     const status = err.status || 500;
