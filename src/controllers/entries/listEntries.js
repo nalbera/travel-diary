@@ -1,5 +1,5 @@
 const { Entries, Users, Votes, Photos } = require('../../database/config/db');
-const {fn,col, Op} = require('sequelize');
+const {fn,col, Op, Sequelize} = require('sequelize');
 
 const listEntries = async (req,res) => {
     
@@ -12,17 +12,13 @@ const listEntries = async (req,res) => {
     const orderDirection = directionFields.includes(direction) ? direction : 'DESC';
 
     try {
-        //attributes: [[sequelize.fn('IFNULL', sequelize.col('A.price'), sequelize.col('B.price')]],
-        //fn('AVG',col('vote')),'avgVote']
-        //fn('AVG',fn('IFNULL',col('vote'),0),'avgVote') 
         let entries;
         if (search){
             entries = await Entries.findAll({
                 attributes: ['id','place','description'],
                 include: [
                     {model: Users, attributes: ['id','email'] },
-                    {model: Votes, attributes: [[fn('AVG',col('vote')),'avgVote']]},
-                    {model: Photos}
+                    {model: Votes, attributes: [[fn('AVG',fn('IFNULL',col('vote'),0)),'avgVote']]},
                 ],
                 where: { 
                     [Op.or]: [
@@ -40,23 +36,54 @@ const listEntries = async (req,res) => {
                 ],
             });
         }else{
+
             entries = await Entries.findAll({
                 attributes: ['id','place','description'],
                 include: [
                     {model: Users, attributes: ['id','email'] },
-                    {model: Votes, attributes: [[fn('AVG',col('vote')),'avgVote']]},
-                    {model: Photos}
+                    {model: Votes, attributes: [[fn('AVG',fn('IFNULL',col('vote'),0)),'avgVote']]},
                 ],
                 group: 'id',
                 order: [
                     [orderBy, orderDirection]
                 ],
-            });
+            })
         };
+
+        let entriesWithPhotos = [];
+
+        if(entries.length > 0){
+            
+            const parseEntries = JSON.stringify(entries);
+            const jsonEntries = JSON.parse(parseEntries);
+            const arrayID = entries.map((e) => e.id);
+            
+            const photos = await Photos.findAll({
+                where:{
+                    entry_id:{
+                        [Op.in]: arrayID
+                    }
+                }
+            });
+            
+            const parsePhotos = JSON.stringify(photos);
+            const jsonPhotos = JSON.parse(parsePhotos);
+            
+            entriesWithPhotos = jsonEntries.map((entry) => {
+                const photoEntry = jsonPhotos.filter((photo) => {
+                    return photo.entry_id === entry.id;
+                });
+                return {
+                   ...entry,
+                   photos: photoEntry
+                };
+            })
+        }
+        
         res.status(200).send({
             status: 'OK',
             message: 'List of entries',
-            data: { entries }
+            data: entriesWithPhotos
         })
 
     } catch (error) {

@@ -8,7 +8,8 @@ const {
     deleteEntrie,
     modifyEntry,
     getEntry,
-    listEntries
+    listEntries,
+    voteEntry
 } = require('../controllers/entries');
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get('/entries', listEntries);
 router.get('/entries/:id', entrieExist, getEntry);
 router.delete('/entries/:id', tokenMiddleware, entrieExist, canEdit, deleteEntrie);
 router.patch('/entries/:id', tokenMiddleware, entrieExist, canEdit, modifyEntry);
+router.post('/entries/:id/votes', tokenMiddleware, entrieExist, voteEntry);
 
 module.exports = router;
