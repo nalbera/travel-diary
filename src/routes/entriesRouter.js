@@ -9,7 +9,8 @@ const {
     modifyEntry,
     getEntry,
     listEntries,
-    voteEntry
+    voteEntry,
+    addEntryPhoto
 } = require('../controllers/entries');
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.get('/entries/:id', entrieExist, getEntry);
 router.delete('/entries/:id', tokenMiddleware, entrieExist, canEdit, deleteEntrie);
 router.patch('/entries/:id', tokenMiddleware, entrieExist, canEdit, modifyEntry);
 router.post('/entries/:id/votes', tokenMiddleware, entrieExist, voteEntry);
+router.post('/entries/:id/photos', tokenMiddleware, entrieExist, canEdit, addEntryPhoto);
 
 module.exports = router;
