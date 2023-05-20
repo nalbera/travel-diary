@@ -5,6 +5,7 @@ const getEntry = require('./getEntry');
 const listEntries = require('./listEntries');
 const voteEntry = require('./voteEntry');
 const addEntryPhoto = require('./addEntryPhoto');
+const deleteEntryPhoto = require('./deleteEntryPhoto');
 
 module.exports = {
     createEntrie,
@@ -13,5 +14,6 @@ module.exports = {
     getEntry,
     listEntries,
     voteEntry,
-    addEntryPhoto
+    addEntryPhoto,
+    deleteEntryPhoto
 }

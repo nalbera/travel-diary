@@ -10,7 +10,8 @@ const {
     getEntry,
     listEntries,
     voteEntry,
-    addEntryPhoto
+    addEntryPhoto,
+    deleteEntryPhoto
 } = require('../controllers/entries');
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.delete('/entries/:id', tokenMiddleware, entrieExist, canEdit, deleteEntri
 router.patch('/entries/:id', tokenMiddleware, entrieExist, canEdit, modifyEntry);
 router.post('/entries/:id/votes', tokenMiddleware, entrieExist, voteEntry);
 router.post('/entries/:id/photos', tokenMiddleware, entrieExist, canEdit, addEntryPhoto);
+router.delete('/entries/:id/photos/:photoID', tokenMiddleware, entrieExist, canEdit, deleteEntryPhoto);
 
 module.exports = router;
