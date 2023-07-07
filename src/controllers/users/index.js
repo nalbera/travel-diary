@@ -7,6 +7,7 @@ const deleteUser = require('./deleteUser');
 const modifyPassword = require('./modifyPassword');
 const recorverPassword = require('./recorverPassword');
 const resetPassword = require('./resetPassword');
+const getMe = require('./getMe');
 
 module.exports = {
     infoUser,
@@ -17,5 +18,6 @@ module.exports = {
     deleteUser,
     modifyPassword,
     recorverPassword,
-    resetPassword
+    resetPassword,
+    getMe
 }
