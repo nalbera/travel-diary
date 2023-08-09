@@ -73,6 +73,7 @@ const listEntries = async (req,res) => {
                 const photoEntry = jsonPhotos.filter((photo) => {
                     return photo.entry_id === entry.id;
                 });
+                console.log(photoEntry);
                 return {
                    ...entry,
                    photos: photoEntry

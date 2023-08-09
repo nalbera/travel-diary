@@ -16,9 +16,10 @@ server.use(express.json());
 server.use(morgan('dev'));
 server.use(fileUpload());
 
-const staticDir = path.join(__dirname,'upload');
 
-server.use(express.static(staticDir));
+const staticDir = path.join(__dirname,'./upload');
+
+server.use('/upload',express.static(staticDir));
 
 createDir(staticDir);
 

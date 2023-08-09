@@ -13,7 +13,7 @@ const canEdit = async (req,res,next) => {
             }
         });
 
-        if(req.userInfo.id != entrie.user_id || req.userInfo.role !== 'admin'){
+        if(req.userInfo.id != entrie.user_id && req.userInfo.role !== 'admin'){
             res.status(401).send('You do not have permissions on this entry');
         }
 
