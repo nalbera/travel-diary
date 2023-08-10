@@ -15,7 +15,7 @@ const listEntries = async (req,res) => {
         let entries;
         if (search){
             entries = await Entries.findAll({
-                attributes: ['id','place','description'],
+                attributes: ['id','date','place','description'],
                 include: [
                     {model: Users, attributes: ['id','email'] },
                     {model: Votes, attributes: [[fn('AVG',fn('IFNULL',col('vote'),0)),'avgVote']]},
@@ -38,7 +38,7 @@ const listEntries = async (req,res) => {
         }else{
 
             entries = await Entries.findAll({
-                attributes: ['id','place','description'],
+                attributes: ['id','date','place','description'],
                 include: [
                     {model: Users, attributes: ['id','email'] },
                     {model: Votes, attributes: [[fn('AVG',fn('IFNULL',col('vote'),0)),'avgVote']]},
