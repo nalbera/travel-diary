@@ -20,7 +20,10 @@ const createUser = async (req,res) => {
 
         const user = await Users.findOne({where:{email: email}});
 
-        if(user) return res.status(409).send('There is already a user with this email');
+        if(user) return res.status(409).send({
+            status: 'BAD',
+            message:'There is already a user with this email'}
+        );
 
         const regCode = uuidv4();
 
@@ -44,7 +47,6 @@ const createUser = async (req,res) => {
         res.status(200).send({
             status: 'OK',
             message: 'User created successfully',
-            data: newUser
         })
     } catch (error) {
         console.log(error);
