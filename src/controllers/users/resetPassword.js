@@ -6,11 +6,11 @@ const resetPassword = async (req,res) => {
 
     try {
         
-        if(!recoverCode || !newPwd || newPwd.length < 6) return res.status(400).send('Missing fields or new password is too short');
+        if(!recoverCode || !newPwd || newPwd.length < 6) return res.status(400).send({message: 'Missing fields or new password is too short'});
 
         const user = await Users.findOne({where:{recoverCode}});
 
-        if(!user) return rs.status(404).send('Incorrect recovery code');
+        if(!user) return rs.status(404).send({message: 'Incorrect recovery code'});
 
         await Users.update(
             {
