@@ -15,9 +15,12 @@ const getMe = async (req,res) => {
             avatar: user.avatar,
             date: user.date
         }
-        res.status(200).json(info);
+        res.status(200).json({
+            status: 'OK',
+            data: info 
+        });
     } catch (error) {
-        
+        console.log(error);
     }
 }
 

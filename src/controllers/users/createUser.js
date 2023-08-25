@@ -46,7 +46,8 @@ const createUser = async (req,res) => {
 
         res.status(200).send({
             status: 'OK',
-            message: 'User created successfully',
+            message: `User created successfully.
+            Check your email.`,
         })
     } catch (error) {
         console.log(error);
